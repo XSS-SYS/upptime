@@ -1,0 +1,34 @@
+# Upptime Configuration
+  owner: XSS-SYS
+  repo: upptime
+
+  sites:
+    - name: API
+      url: https://tb-api.top/status
+    - name: Main Page
+      url: https://tb-api.top
+
+  assignees:
+    - XSS-SYS
+
+  status-website:
+    baseUrl: /upptime
+    name: TokenBridge Status
+    introTitle: "**TokenBridge** 服务状态"
+    introMessage: 实时监控 API 可用性和响应时间
+    theme: light
+    navbar:
+      - title: Status
+        href: /
+      - title: GitHub
+        href: https://github.com/XSS-SYS/upptime
+
+  workflowSchedule:
+    uptime: "*/5 * * * *"
+    responseTime: "*/5 * * * *"
+    staticSite: "0 0 * * *"
+    summary: "0 0 * * *"
+    updateTemplate: "0 0 * * *"
+    updates: "0 0 * * *"
+    uptimePerMonth: "0 0 * * *"
+    responseTimePerMonth: "0 0 * * *"
