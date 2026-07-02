@@ -6,14 +6,8 @@ on:
 jobs:
   monitor:
     runs-on: ubuntu-latest
-    env:
-      ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: 'true'
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: upptime/uptime-monitor@v1.43.6
         with:
-          node-version: 20
-      - name: Install upptime
-        run: npm install -g upptime@1.30.0
-      - name: Run upptime update
-        run: upptime update
+          command: update
