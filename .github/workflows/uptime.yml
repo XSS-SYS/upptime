@@ -4,7 +4,7 @@ on:
     - cron: '*/5 * * * *'
   workflow_dispatch: {}
 env:
-  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  GH_PAT: ${{ secrets.GITHUB_TOKEN }}
 jobs:
   monitor:
     runs-on: ubuntu-latest
