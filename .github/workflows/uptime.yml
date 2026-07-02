@@ -11,3 +11,5 @@ jobs:
       - uses: upptime/uptime-monitor@v1.43.6
         with:
           command: update
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
