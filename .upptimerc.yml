@@ -1,4 +1,3 @@
-# Change these values to configure Upptime for your sites
 owner: XSS-SYS
 repo: upptime
 
@@ -14,8 +13,8 @@ assignees:
 status-website:
   baseUrl: /upptime
   name: TokenBridge Status
-  introTitle: "**TokenBridge** 鏈嶅姟鐘舵€?
-  introMessage: 瀹炴椂鐩戞帶 API 鍙敤鎬у拰鍝嶅簲鏃堕棿
+  introTitle: TokenBridge Service Status
+  introMessage: Real-time monitoring of API availability and response times
   theme: light
   navbar:
     - title: Status
@@ -26,9 +25,9 @@ status-website:
 workflowSchedule:
   uptime: '*/5 * * * *'
   responseTime: '*/5 * * * *'
-  staticSite: '0 0 * * *'
-  summary: '0 0 * * *'
-  updateTemplate: '0 0 * * *'
-  updates: '0 0 * * *'
-  uptimePerMonth: '0 0 * * *'
-  responseTimePerMonth: '0 0 * * *'
+  staticSite: 0 0 * * *
+  summary: 0 0 * * *
+  updateTemplate: 0 0 * * *
+  updates: 0 0 * * *
+  uptimePerMonth: 0 0 * * *
+  responseTimePerMonth: 0 0 * * *
