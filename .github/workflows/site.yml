@@ -1,21 +1,22 @@
-name: Uptime CI
+name: Static Site CI
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: "0 0 * * *"
   workflow_dispatch: {}
 jobs:
-  monitor:
+  build:
     runs-on: ubuntu-latest
-    env:
-      ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: 'true'
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 20
       - uses: upptime/uptime-monitor@v1.43.6
         with:
-          command: "update"
+          command: "static-site"
         env:
           GH_PAT: "${{ secrets.GITHUB_TOKEN }}"
           UPPTIME_COMMITTER: "XSS-SYS <songsongxia@163.com>"
