@@ -3,6 +3,8 @@ on:
   push:
     branches: [main]
   workflow_dispatch: {}
+permissions:
+  contents: write
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,3 +21,11 @@ jobs:
         env:
           GH_PAT: "${{ secrets.GITHUB_TOKEN }}"
           UPPTIME_COMMITTER: "XSS-SYS <songsongxia@163.com>"
+      - name: Force push to gh-pages
+        run: |
+          git config user.name "XSS-SYS"
+          git config user.email "songsongxia@163.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/XSS-SYS/upptime.git
+          git add -A
+          git commit --allow-empty -m "chore: update monitoring dashboard" || true
+          git push origin HEAD:gh-pages --force
