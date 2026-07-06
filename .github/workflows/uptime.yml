@@ -3,13 +3,17 @@ on:
   schedule:
     - cron: '*/5 * * * *'
   workflow_dispatch: {}
-env:
-  GH_PAT: ${{ secrets.GITHUB_TOKEN }}
 jobs:
   monitor:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
       - uses: upptime/uptime-monitor@v1.43.6
         with:
           command: update
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          UPPTIME_COMMITTER: "XSS-SYS <songsongxia@163.com>"
