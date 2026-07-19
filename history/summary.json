@@ -1,0 +1,40 @@
+[
+  {
+    "name": "API",
+    "url": "https://tb-api.top/status",
+    "icon": "https://icons.duckduckgo.com/ip3/tb-api.top.ico",
+    "slug": "api",
+    "status": "down",
+    "uptime": "100.00%",
+    "uptimeDay": "99.98%",
+    "uptimeWeek": "100.00%",
+    "uptimeMonth": "100.00%",
+    "uptimeYear": "100.00%",
+    "time": 233,
+    "timeDay": 34,
+    "timeWeek": 34,
+    "timeMonth": 233,
+    "timeYear": 233,
+    "dailyMinutesDown": {
+      "2026-07-19": 0
+    }
+  },
+  {
+    "name": "Main Page",
+    "url": "https://tb-api.top",
+    "icon": "https://icons.duckduckgo.com/ip3/tb-api.top.ico",
+    "slug": "main-page",
+    "status": "down",
+    "uptime": "100.00%",
+    "uptimeDay": "100.00%",
+    "uptimeWeek": "100.00%",
+    "uptimeMonth": "100.00%",
+    "uptimeYear": "100.00%",
+    "time": 487,
+    "timeDay": 45,
+    "timeWeek": 45,
+    "timeMonth": 487,
+    "timeYear": 487,
+    "dailyMinutesDown": {}
+  }
+]
