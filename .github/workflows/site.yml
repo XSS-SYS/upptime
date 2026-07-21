@@ -13,6 +13,9 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -27,8 +30,10 @@ jobs:
           GH_PAT: "${{ secrets.GITHUB_TOKEN }}"
           UPPTIME_COMMITTER: "XSS-SYS <songsongxia@163.com>"
       - name: Upload site artifact
+        id: upload
         uses: actions/upload-pages-artifact@v3
         with:
           path: site/status-page/__sapper__/export
       - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
