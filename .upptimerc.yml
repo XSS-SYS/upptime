@@ -6,6 +6,17 @@ sites:
     url: https://tb-api.top/status
   - name: Main Page
     url: https://tb-api.top
+  - name: Chat Completion
+    url: https://tb-api.top/v1/chat/completions
+    method: POST
+    headers:
+      - "Authorization: Bearer tb_test_free"
+      - "Content-Type: application/json"
+    body: '{"model":"deepseek-chat","messages":[{"role":"user","content":"hi"}]}'
+  - name: Health
+    url: https://tb-api.top/health
+  - name: Docs
+    url: https://tb-api.top/docs.en.html
 
 assignees:
   - XSS-SYS
@@ -14,7 +25,7 @@ status-website:
   baseUrl: /upptime
   name: TokenBridge Status
   introTitle: TokenBridge Service Status
-  introMessage: Real-time monitoring of API availability and response times
+  introMessage: Real-time monitoring of API availability, response times, and core endpoint health
   theme: light
   navbar:
     - title: Status
