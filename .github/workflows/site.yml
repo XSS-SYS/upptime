@@ -15,17 +15,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - uses: upptime/uptime-monitor@v1.43.6
+      - uses: upptime/uptime-monitor@v1.43.10
         with:
-          command: "static-site"
+          command: "site"
         env:
           GH_PAT: "${{ secrets.GITHUB_TOKEN }}"
           UPPTIME_COMMITTER: "XSS-SYS <songsongxia@163.com>"
-      - name: Force push to gh-pages
-        run: |
-          git config user.name "XSS-SYS"
-          git config user.email "songsongxia@163.com"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/XSS-SYS/upptime.git
-          git add -A
-          git commit --allow-empty -m "chore: update monitoring dashboard" || true
-          git push origin HEAD:gh-pages --force
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/status-page/__sapper__/export
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
