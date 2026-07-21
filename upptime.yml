@@ -7,6 +7,17 @@
       url: https://tb-api.top/status
     - name: Main Page
       url: https://tb-api.top
+    - name: Chat Completion
+      url: https://tb-api.top/v1/chat/completions
+      method: POST
+      headers:
+        - "Authorization: Bearer ***"
+        - "Content-Type: application/json"
+      body: '{"model":"deepseek-chat","messages":[{"role":"user","content":"hi"}]}'
+    - name: Health
+      url: https://tb-api.top/health
+    - name: Docs
+      url: https://tb-api.top/docs.en.html
 
   assignees:
     - XSS-SYS
@@ -32,3 +43,7 @@
     updates: "0 0 * * *"
     uptimePerMonth: "0 0 * * *"
     responseTimePerMonth: "0 0 * * *"
+
+  notifications:
+    - type: email
+      to: songsongxia@163.com
