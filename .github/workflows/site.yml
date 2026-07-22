@@ -29,6 +29,16 @@ jobs:
         env:
           GH_PAT: "${{ secrets.GITHUB_TOKEN }}"
           UPPTIME_COMMITTER: "XSS-SYS <songsongxia@163.com>"
+      - name: Inject PAT into JS bundle
+        run: |
+          TOKEN="${{ secrets.UPPTIME_TOKEN }}"
+          if [ -n "$TOKEN" ]; then
+            echo "Injecting PAT into createOctokit JS..."
+            sed -i "s|localStorage.getItem(\"personal-access-token\")|\"$TOKEN\"|g" site/status-page/__sapper__/export/client/createOctokit*.js
+            echo "Done."
+          else
+            echo "UPPTIME_TOKEN not set, skipping injection."
+          fi
       - name: Upload site artifact
         id: upload
         uses: actions/upload-pages-artifact@v3
