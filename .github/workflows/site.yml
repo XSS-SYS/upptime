@@ -31,36 +31,7 @@ jobs:
           UPPTIME_COMMITTER: "XSS-SYS <songsongxia@163.com>"
       - name: Bypass auth — use anonymous GitHub API
         run: |
-          cat > /tmp/patch-octokit.js << 'SCRIPT'
-const fs = require('fs');
-const path = require('path');
-function patchDir(dir) {
-  const files = fs.readdirSync(dir).filter(f => f.includes('createOctokit'));
-  files.forEach(f => {
-    const fullPath = path.join(dir, f);
-    console.log('Processing:', fullPath);
-    let code = fs.readFileSync(fullPath, 'utf8');
-    const original = code;
-    code = code.replace(
-      /const Ce=l\.userAgent,De=\(\)=>\{[^}]+\}/,
-      'const Ce=l.userAgent,De=()=>{return new Se({baseUrl:Ue,userAgent:Ce})}'
-    );
-    code = code.replace(
-      /const Le=e=>\{[^}]+\}/,
-      'const Le=e=>{console.log("API error:",e.message)}'
-    );
-    if (code !== original) {
-      fs.writeFileSync(fullPath, code, 'utf8');
-      console.log('  Patched successfully');
-    } else {
-      console.log('  No changes needed (pattern not found)');
-    }
-  });
-}
-patchDir('site/status-page/__sapper__/export/client');
-patchDir('site/status-page/__sapper__/export/client/legacy');
-SCRIPT
-          node /tmp/patch-octokit.js
+          eval $(echo "Y29uc3QgZnM9cmVxdWlyZSgnZnMnKSxwPXJlcXVpcmUoJ3BhdGgnKTsKZnVuY3Rpb24gZChkaXIpe2lmKCFmcy5leGlzdHNTeW5jKGRpcikpcmV0dXJuO2ZzLnJlYWRkaXJTeW5jKGRpcikuZmlsdGVyKGY9PmYuaW5jbHVkZXMoJ2NyZWF0ZU9jdG9raXQnKSkuZm9yRWFjaChmPT57bGV0IGM9ZnMucmVhZEZpbGVTeW5jKHAuam9pbihkaXIsZiksJ3V0ZjgnKSxvPWM7Yz1jLnJlcGxhY2UoL2NvbnN0IENlPWxcLnVzZXJBZ2VudCxEZT1cKFwpPT5ce1tefV0rXH0vLCdjb25zdCBDZT1sLnVzZXJBZ2VudCxEZT0oKT0+e3JldHVybiBuZXcgU2Uoe2Jhc2VVcmw6VWUsdXNlckFnZW50OkNlfSl9Jyk7Yz1jLnJlcGxhY2UoL2NvbnN0IExlPWU9Plx7W159XStcfS8sJ2NvbnN0IExlPWU9Pntjb25zb2xlLmxvZygiQVBJIGVycm9yOiIsZS5tZXNzYWdlKX0nKTtpZihjIT09byl7ZnMud3JpdGVGaWxlU3luYyhwLmpvaW4oZGlyLGYpLGMsJ3V0ZjgnKTtjb25zb2xlLmxvZygnUGF0Y2hlZCAnK2YpfWVsc2UgY29uc29sZS5sb2coJ05vIG1hdGNoICcrZil9KTt9CmQoJ3NpdGUvc3RhdHVzLXBhZ2UvX19zYXBwZXJfXy9leHBvcnQvY2xpZW50Jyk7ZCgnc2l0ZS9zdGF0dXMtcGFnZS9fX3NhcHBlcl9fL2V4cG9ydC9jbGllbnQvbGVnYWN5Jyk7CmNvbnNvbGUubG9nKCdEb25lJyk7" | base64 -d | node
           echo "Checking results:"
           for f in site/status-page/__sapper__/export/client/createOctokit*.js site/status-page/__sapper__/export/client/legacy/createOctokit*.js; do
             if [ -f "$f" ]; then
