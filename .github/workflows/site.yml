@@ -32,9 +32,14 @@ jobs:
       - name: Inject PAT into JS bundle
         run: |
           TOKEN="${{ secrets.UPPTIME_TOKEN }}"
+          echo "PWD: $(pwd)"
+          ls -la site/status-page/__sapper__/export/client/ 2>&1 | head -20
           if [ -n "$TOKEN" ]; then
             echo "Injecting PAT into createOctokit JS..."
             sed -i "s|localStorage.getItem(\"personal-access-token\")|\"$TOKEN\"|g" site/status-page/__sapper__/export/client/createOctokit*.js
+            echo "Checking result..."
+            grep -c "$TOKEN" site/status-page/__sapper__/export/client/createOctokit*.js || echo "Token not found, checking localStorage refs..."
+            grep -c "personal-access-token" site/status-page/__sapper__/export/client/createOctokit*.js || echo "No localStorage refs found"
             echo "Done."
           else
             echo "UPPTIME_TOKEN not set, skipping injection."
