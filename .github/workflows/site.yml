@@ -31,38 +31,48 @@ jobs:
           UPPTIME_COMMITTER: "XSS-SYS <songsongxia@163.com>"
       - name: Bypass auth — use anonymous GitHub API
         run: |
-          echo "PWD: $(pwd)"
-          echo "Patching JS bundles with Node.js..."
+          cat > /tmp/patch-octokit.js << 'SCRIPT'
+const fs = require('fs');
+const path = require('path');
+function patchDir(dir) {
+  const files = fs.readdirSync(dir).filter(f => f.includes('createOctokit'));
+  files.forEach(f => {
+    const fullPath = path.join(dir, f);
+    console.log('Processing:', fullPath);
+    let code = fs.readFileSync(fullPath, 'utf8');
+    const original = code;
+    code = code.replace(
+      /const Ce=l\.userAgent,De=\(\)=>\{[^}]+\}/,
+      'const Ce=l.userAgent,De=()=>{return new Se({baseUrl:Ue,userAgent:Ce})}'
+    );
+    code = code.replace(
+      /const Le=e=>\{[^}]+\}/,
+      'const Le=e=>{console.log("API error:",e.message)}'
+    );
+    if (code !== original) {
+      fs.writeFileSync(fullPath, code, 'utf8');
+      console.log('  Patched successfully');
+    } else {
+      console.log('  No changes needed (pattern not found)');
+    }
+  });
+}
+patchDir('site/status-page/__sapper__/export/client');
+patchDir('site/status-page/__sapper__/export/client/legacy');
+SCRIPT
+          node /tmp/patch-octokit.js
+          echo "Checking results:"
           for f in site/status-page/__sapper__/export/client/createOctokit*.js site/status-page/__sapper__/export/client/legacy/createOctokit*.js; do
             if [ -f "$f" ]; then
-              echo "Processing: $f"
-              node -e "
-const fs = require('fs');
-let code = fs.readFileSync('$f', 'utf8');
-
-// Replace De() — strip localStorage token logic, use anonymous auth
-code = code.replace(
-  /const Ce=l\.userAgent,De=\(\)=>\{[^}]+\}/,
-  'const Ce=l.userAgent,De=()=>{return new Se({baseUrl:Ue,userAgent:Ce})}'
-);
-
-// Replace Le() — log errors instead of redirecting
-code = code.replace(
-  /const Le=e=>\{[^}]+\}/,
-  'const Le=e=>{console.log(\"API error:\",e.message)}'
-);
-
-fs.writeFileSync('$f', code, 'utf8');
-"
               if grep -q 'localStorage' "$f"; then
-                echo "  ⚠️ localStorage still present"
+                echo "  $f: WARNING localStorage still present"
               else
-                echo "  ✅ localStorage reference removed"
+                echo "  $f: OK localStorage removed"
               fi
-              if grep -q 'Bad credentials' "$f"; then
-                echo "  ⚠️ Error redirect still present"
+              if grep -q 'window.location.href' "$f"; then
+                echo "  $f: WARNING error redirect still present"
               else
-                echo "  ✅ Error redirect replaced with console.log"
+                echo "  $f: OK error redirect removed"
               fi
             fi
           done
