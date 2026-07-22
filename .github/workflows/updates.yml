@@ -1,0 +1,23 @@
+name: Updates CI
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch: {}
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    env:
+      ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: 'true'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: upptime/uptime-monitor@v1.43.6
+        with:
+          command: "updates"
+        env:
+          GH_PAT: "${{ secrets.GITHUB_TOKEN }}"
+          UPPTIME_COMMITTER: "XSS-SYS <songsongxia@163.com>"
