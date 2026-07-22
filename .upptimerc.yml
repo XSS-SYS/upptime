@@ -32,3 +32,17 @@ status-website:
       href: /
     - title: GitHub
       href: https://github.com/XSS-SYS/upptime
+
+workflowSchedule:
+  uptime: "*/5 * * * *"
+  responseTime: "*/5 * * * *"
+  staticSite: "0 0 * * *"
+  summary: "0 0 * * *"
+  updateTemplate: "0 0 * * *"
+  updates: "0 0 * * *"
+  uptimePerMonth: "0 0 * * *"
+  responseTimePerMonth: "0 0 * * *"
+
+notifications:
+  - type: email
+    to: songsongxia@163.com
