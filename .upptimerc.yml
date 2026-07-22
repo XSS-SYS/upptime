@@ -27,7 +27,6 @@ status-website:
   introTitle: TokenBridge Service Status
   introMessage: Real-time monitoring of API availability, response times, and core endpoint health
   theme: light
-  GH_PAT: ${{ secrets.UPPTIME_TOKEN }}
   navbar:
     - title: Status
       href: /
