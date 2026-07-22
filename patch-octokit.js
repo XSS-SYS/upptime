@@ -9,18 +9,27 @@ function patchDir(dir) {
       console.log('Processing:', fp);
       let code = fs.readFileSync(fp, 'utf8');
       const orig = code;
-      // De() — match up to the function-return closing parentheses )}
-      // Looser match: look for ',De=()=>{...' up to the first occurrence of ')}'
-      // where Se({...}) ends. The pattern: De=()=>{...return new Se({...})}
-      code = code.replace(
-        /De=\(\)=>\{.*?return new Se\(\{[^}]+\}\)\}/g,
-        'De=()=>{return new Se({baseUrl:Ue,userAgent:Ce})}'
-      );
-      // Le() — match from 'Le=e=>{' to the first occurrence of '})' that ends it
-      code = code.replace(
-        /Le=e=>\{[^}]+Bad credentials[^}]+console\.log\(e\.message\)[^}]*\}/g,
-        'Le=e=>{console.log("API error:",e.message)}'
-      );
+      const token = process.env.UPPTIME_TOKEN || '';
+      if (token) {
+        // Inject token into De() — replicate what Upptime does at build time
+        code = code.replace(
+          /De=\(\)=>\{[^}]+\}/,
+          `De=()=>{return new Se({baseUrl:Ue,userAgent:Ce,auth:"${token}"})}`
+        );
+        // Replace Le() — log instead of redirect
+        code = code.replace(
+          /Le=e=>\{[^}]{10,}\}/,
+          'Le=e=>{console.log("API error:",e.message)}'
+        );
+        console.log('  Token injected');
+      } else {
+        // Fallback: anonymous
+        code = code.replace(
+          /De=\(\)=>\{[^}]{10,}\}/,
+          'De=()=>{return new Se({baseUrl:Ue,userAgent:Ce})}'
+        );
+        console.log('  Anonymous (no token)');
+      }
       if (code !== orig) {
         fs.writeFileSync(fp, code, 'utf8');
         console.log('  Patched');
@@ -31,15 +40,11 @@ function patchDir(dir) {
   }
 }
 
-// We need to find the export dir dynamically
+// Handle both modern and legacy dirs
 const exportDir = 'site/status-page/__sapper__/export';
-if (fs.existsSync(exportDir)) {
-  const clients = fs.readdirSync(exportDir).filter(d => d.startsWith('client'));
-  clients.forEach(d => patchDir(path.join(exportDir, d)));
-} else {
-  console.log('Export dir not found:', exportDir);
-  // fallback: try known paths
-  patchDir('site/status-page/__sapper__/export/client');
-  patchDir('site/status-page/__sapper__/export/client/legacy');
-}
+const dirs = [
+  'client',
+  'client/legacy'
+];
+dirs.forEach(d => patchDir(path.join(exportDir, d)));
 console.log('Done.');

@@ -29,9 +29,11 @@ jobs:
         env:
           GH_PAT: "${{ secrets.GITHUB_TOKEN }}"
           UPPTIME_COMMITTER: "XSS-SYS <songsongxia@163.com>"
-      - name: Bypass auth — use anonymous GitHub API
+      - name: Bypass auth — inject UPPTIME_TOKEN into JS
         run: |
           node patch-octokit.js
+        env:
+          UPPTIME_TOKEN: ${{ secrets.UPPTIME_TOKEN }}
           echo "Checking results:"
           for f in site/status-page/__sapper__/export/client/createOctokit*.js site/status-page/__sapper__/export/client/legacy/createOctokit*.js; do
             if [ -f "$f" ]; then
