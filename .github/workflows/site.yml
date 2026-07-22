@@ -32,16 +32,23 @@ jobs:
       - name: Bypass auth — use anonymous GitHub API
         run: |
           echo "PWD: $(pwd)"
-          echo "Removing localStorage token pattern from createOctokit JS..."
+          echo "Patching De() to use anonymous auth, and Le() to not redirect on error..."
           for f in site/status-page/__sapper__/export/client/createOctokit*.js site/status-page/__sapper__/export/client/legacy/createOctokit*.js; do
             if [ -f "$f" ]; then
               echo "Processing: $f"
-              # Remove the entire auth logic that reads from localStorage and returns empty
-              sed -i 's|const De=(){let e="";"undefined"!=typeof window&&"localStorage"in window&&[^;]*;return new Se|const De=(){return new Se|' "$f"
+              # Replace De() — return auth: void 0 (no token, anonymous)
+              sed -i 's|const Ce=l.userAgent,De=()=>{let e="";"undefined"!=typeof window&&"localStorage"in window&&localStorage.getItem("personal-access-token")&&(e=localStorage.getItem("personal-access-token"));return new Se({baseUrl:Ue,userAgent:Ce,auth:e||void 0})}|const Ce=l.userAgent,De=()=>{return new Se({baseUrl:Ue,userAgent:Ce})}|' "$f"
+              # Replace Le() — log but don't redirect
+              sed -i 's|const Le=e=>{"Bad credentials"===e.message?window.location.href=l.path+"/error":(e.message||"").indexOf("rate limit exceeded")>-1?window.location.href=l.path+"/rate-limit-exceeded":(window.location.href=l.path+"/error",console.log(e.message))}|const Le=e=>{console.log("API error:",e.message)}|' "$f"
               if grep -q 'localStorage' "$f"; then
                 echo "  ⚠️ localStorage still present"
               else
                 echo "  ✅ localStorage reference removed"
+              fi
+              if grep -q 'Bad credentials' "$f"; then
+                echo "  ⚠️ Error redirect still present"
+              else
+                echo "  ✅ Error redirect replaced with console.log"
               fi
             fi
           done
