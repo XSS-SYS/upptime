@@ -32,11 +32,12 @@ jobs:
       - name: Bypass auth — use anonymous GitHub API
         run: |
           echo "PWD: $(pwd)"
-          echo "Stripping localStorage token check from createOctokit JS..."
+          echo "Removing localStorage token pattern from createOctokit JS..."
           for f in site/status-page/__sapper__/export/client/createOctokit*.js site/status-page/__sapper__/export/client/legacy/createOctokit*.js; do
             if [ -f "$f" ]; then
               echo "Processing: $f"
-              sed -i 's|const De=(){let e="";"undefined"!=typeof window&&"localStorage"in window&&"[^"]*"&&(e="[^"]*")|const De=(){let e=""|' "$f"
+              # Remove the entire auth logic that reads from localStorage and returns empty
+              sed -i 's|const De=(){let e="";"undefined"!=typeof window&&"localStorage"in window&&[^;]*;return new Se|const De=(){return new Se|' "$f"
               if grep -q 'localStorage' "$f"; then
                 echo "  ⚠️ localStorage still present"
               else
