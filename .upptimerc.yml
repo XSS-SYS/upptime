@@ -26,10 +26,13 @@ status-website:
   name: TokenBridge Status
   introTitle: TokenBridge Service Status
   introMessage: Real-time monitoring of API availability, response times, and core endpoint health
-  theme: light
+  theme: dark
+  logoUrl: https://tb-api.top/favicon.ico
   navbar:
     - title: Status
       href: /
+    - title: Home
+      href: https://tb-api.top
     - title: GitHub
       href: https://github.com/XSS-SYS/upptime
 
