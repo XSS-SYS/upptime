@@ -10,7 +10,7 @@ sites:
     url: https://tb-api.top/v1/chat/completions
     method: POST
     headers:
-      - "Authorization: Bearer tb_test_free"
+      - "Authorization: Bearer ***"
       - "Content-Type: application/json"
     body: '{"model":"deepseek-chat","messages":[{"role":"user","content":"hi"}]}'
   - name: Health
@@ -22,7 +22,7 @@ assignees:
   - XSS-SYS
 
 status-website:
-  baseUrl: /upptime
+  baseUrl: /
   name: TokenBridge Status
   introTitle: TokenBridge Service Status
   introMessage: Real-time monitoring of API availability, response times, and core endpoint health
