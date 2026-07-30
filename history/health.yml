@@ -1,7 +1,7 @@
 url: https://tb-api.top/health
-status: down
-code: 530
-responseTime: 113
-lastUpdated: 2026-07-30T00:14:12.279Z
+status: up
+code: 200
+responseTime: 306
+lastUpdated: 2026-07-30T02:52:33.301Z
 startTime: 2026-07-21T07:25:16.807Z
 generator: Upptime <https://github.com/upptime/upptime>
