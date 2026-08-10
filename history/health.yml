@@ -1,7 +1,7 @@
 url: https://tb-api.top/health
 status: down
-code: 403
-responseTime: 96
-lastUpdated: 2026-08-10T07:01:06.394Z
+code: 502
+responseTime: 256
+lastUpdated: 2026-08-10T08:47:20.393Z
 startTime: 2026-07-21T07:25:16.807Z
 generator: Upptime <https://github.com/upptime/upptime>
