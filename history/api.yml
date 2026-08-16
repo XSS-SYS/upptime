@@ -1,7 +1,7 @@
 url: https://tb-api.top/status
 status: down
-code: 404
-responseTime: 500
-lastUpdated: 2026-08-16T16:59:13.516Z
+code: 502
+responseTime: 1274
+lastUpdated: 2026-08-16T17:27:18.757Z
 startTime: 2026-07-02T02:20:45.483Z
 generator: Upptime <https://github.com/upptime/upptime>
