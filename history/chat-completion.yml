@@ -1,7 +1,7 @@
 url: https://tb-api.top/v1/chat/completions
 status: down
-code: 502
-responseTime: 4364
-lastUpdated: 2026-09-14T21:59:11.628Z
+code: 404
+responseTime: 516
+lastUpdated: 2026-09-15T00:27:57.381Z
 startTime: 2026-07-21T07:25:15.314Z
 generator: Upptime <https://github.com/upptime/upptime>
